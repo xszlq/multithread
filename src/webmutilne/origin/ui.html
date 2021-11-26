@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app"></div>
+
+
+<script>
+    let work = new Worker('./logic.js')
+
+    function render(data={}){
+        document.querySelector("#app").innerHTML = `<div><div id="text">hello world</div><button onclick="change">改变文案</button></div>`
+    }
+
+    work.onmessage = function (event){
+        console.log(event);
+        const passParam = event.data;
+        if(passParam.event === 'firstRender'){
+            render();
+        }
+    }
+
+    function change(){
+
+    }
+
+</script>
+
+</body>
+</html>
