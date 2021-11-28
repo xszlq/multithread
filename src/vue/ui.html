@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+
+<script>
+    let work = new Worker('logic.js');
+
+    let page = new Vue({
+      template: `<div>{{text}}<br/><button @click="onClick">改变文案</button></div>`,
+      data(){
+        return {
+          text: ''
+        }
+      },
+      created(){
+        // if(this.$attrs.bind)
+      },
+
+      methods: {
+        onClick(e){
+          work.postMessage({
+            event: 'click',
+            pageId: this.pageId,
+            data: {}
+          })
+        }
+      }
+    })
+
+
+    work.onmessage = function(e){
+      console.log('recevie Event', e)
+      let {event, data, pageId} = e.data;
+
+      if(event === 'initRender'){
+        page.pageId = pageId;
+        Object.assign(page, data);
+        page.$mount('#app')
+      }
+
+      if(event === 'render'){
+        Object.assign(page, data);
+      }
+    }
+
+</script>
+
+</body>
+</html>
