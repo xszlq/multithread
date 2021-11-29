@@ -12,3 +12,6 @@
 
 ### src/webmutilne
 web端的多线程，参考小程序设计，Work线程实现Page，包含onShow、onHide、onUnload生命周期钩子、setData方法，事件注册,data属性
+
+### src/vue
+ui线程使用vue实现
